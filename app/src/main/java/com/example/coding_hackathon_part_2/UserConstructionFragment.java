@@ -21,7 +21,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,9 +34,13 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class UserConstructionFragment extends Fragment {
 
@@ -56,7 +62,6 @@ public class UserConstructionFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        Log.d("Lavish", getActivity().toString());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference ref = db.collection("user_survey");
@@ -87,9 +92,23 @@ public class UserConstructionFragment extends Fragment {
                         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                             final ConstUser project_details = project_list.get(position);
 
-                            holder.txtProjectName.setText("USERID: " + project_details.getUserid());
+                            DocumentReference ref2 = project_details.getUserid();
+                            String path = ref2.getPath();
+
+                            String user_id_temp=path.substring(path.lastIndexOf("/")+1);
+
+                            holder.txtProjectName.setText(user_id_temp);
                             holder.txtProjectDesciption.setText("REMARKS: " + project_details.getRemarks());
-                            holder.txtProjectSurveyCount.setText("START DATE: " + project_details.getTime());
+
+                            Timestamp time = project_details.getTime();
+                            Long seconds = time.getSeconds();
+
+                            Date date = new Date(seconds*1000);
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+                            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            String formattedDate = sdf.format(date);
+
+                            holder.txtProjectSurveyCount.setText("START DATE: " + formattedDate.toString());
                             holder.txtProjectSurveyCount2.setText("USER STATUS: " + project_details.getUser_status());
                             holder.btn_download.setOnClickListener(new View.OnClickListener() {
                                 @Override

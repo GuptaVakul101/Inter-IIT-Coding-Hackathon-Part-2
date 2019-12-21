@@ -1,25 +1,33 @@
 package com.example.coding_hackathon_part_2;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+
+
 public class ConstUser {
-    private String userid;
+    private DocumentReference userid;
     private String remarks;
-    private String time;
+    private Timestamp time;
     private String media_path;
     private Integer user_status;
 
     public ConstUser(Object userid, Object remarks, Object time, Object media_path, Object user_status) {
-        this.userid = userid.toString();
+
+        this.userid = (DocumentReference) userid;
         this.remarks = remarks.toString();
-        this.time = time.toString();
         this.media_path = media_path.toString();
         this.user_status = Integer.valueOf(user_status.toString());
+        this.time = (Timestamp) time;
     }
 
-    public String getUserid() {
+
+    public DocumentReference getUserid()
+    {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(DocumentReference userid)
+    {
         this.userid = userid;
     }
 
@@ -31,11 +39,13 @@ public class ConstUser {
         this.remarks = remaeks;
     }
 
-    public String getTime() {
+    public Timestamp getTime()
+    {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Timestamp time)
+    {
         this.time = time;
     }
 
