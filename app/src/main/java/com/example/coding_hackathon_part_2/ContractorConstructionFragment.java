@@ -59,15 +59,15 @@ public class ContractorConstructionFragment extends Fragment {
                         public void onSuccess(DocumentSnapshot snapshot) {
                             if(snapshot.exists()) {
 
-                                nameText.setText(snapshot.getString("name"));
-                                descriptionText.setText(snapshot.getString("description"));
-                                latitudeText.setText(snapshot.getDouble("latitude").toString());
-                                longitudeText.setText(snapshot.getDouble("longitude").toString());
-                                reportText.setText(snapshot.getString("report"));
+                                nameText.setText("Title: " + snapshot.getString("name"));
+                                descriptionText.setText("Description: " + snapshot.getString("description"));
+                                latitudeText.setText("Latitude: " + snapshot.getDouble("latitude").toString());
+                                longitudeText.setText("Longitude: " + snapshot.getDouble("longitude").toString());
+                                //reportText.setText(snapshot.getString("report"));
 
 
-                                contractorRemarksText.setText(snapshot.getString("contract_remarks"));
-                                contractorStatusText.setText(snapshot.getDouble("contractor_status").toString());
+                                contractorRemarksText.setText("Remarks: " + snapshot.getString("contract_remarks"));
+                                contractorStatusText.setText("Status: " + snapshot.getDouble("contractor_status").toString() + "%");
                                 //mediaRefText.setText(snapshot.getString("description"));
                                 //videoRefText.setText(snapshot.getString("description"));
 
@@ -77,7 +77,7 @@ public class ContractorConstructionFragment extends Fragment {
                                     public void onSuccess(DocumentSnapshot snapshot2)
                                     {
                                         if(snapshot2.exists()) {
-                                            contractorText.setText(snapshot2.getString("company_name"));
+                                            contractorText.setText("Assigned contractor: " + snapshot2.getString("company_name"));
                                         }
 
                                         else {
