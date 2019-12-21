@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class Pager extends FragmentStatePagerAdapter {
 
-    private HomeFragment tab0 = null;
+    private Ongoing_Projects_List_Fragment tab0 = null;
     private ProjectsFragment tab1 = null;
     private ComplaintsFragment tab2 = null;
 
@@ -27,7 +27,7 @@ public class Pager extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 if(tab0 == null){
-                    tab0 = new HomeFragment();
+                    tab0 = new Ongoing_Projects_List_Fragment();
                 }
                 return tab0;
 
