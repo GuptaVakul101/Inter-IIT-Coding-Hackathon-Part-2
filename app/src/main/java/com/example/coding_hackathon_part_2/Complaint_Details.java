@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -83,11 +84,16 @@ public class Complaint_Details extends AppCompatActivity
         super.onStart();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference ref = db.collection("user_complaints");
-        ref.whereEqualTo("group_ref", group_id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        DocumentReference ref2 = db.document("/groups_complaint/" + group_id);
+
+
+        ref.whereEqualTo("group_ref", ref2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+                    for (QueryDocumentSnapshot document : task.getResult())
+                    {
                         Map<String, Object> data = document.getData();
                         complaintDetails temp = new complaintDetails(data.get("user_ref"), data.get("remarks"));
                         list.add(temp);

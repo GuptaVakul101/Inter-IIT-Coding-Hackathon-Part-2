@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,8 +37,13 @@ public class Complaint_Details_Adapter extends RecyclerView.Adapter<Complaint_De
     {
         complaintDetails itemdetails = mainUploadlist.get(position);
         holder.txtProductName.setText(itemdetails.getRemarks());
-        holder.txtProductCategory.setText("User ID: " + itemdetails.getUserid());
 
+        DocumentReference ref2 = itemdetails.getUserid();
+        String path = ref2.getPath();
+
+        String user_id_temp=path.substring(path.lastIndexOf("/")+1);
+
+        holder.txtProductCategory.setText("User ID: " + user_id_temp);
 
         //holder.locationText.setText();
     }

@@ -1,27 +1,37 @@
 package com.example.coding_hackathon_part_2;
 
-public class complaintDetails {
-    private String remarks;
-    private String userid;
+import com.google.firebase.firestore.DocumentReference;
 
-    public complaintDetails(Object userid, Object remarks) {
+public class complaintDetails
+{
+    private String remarks;
+    private DocumentReference userid;
+
+    public complaintDetails(Object userid, Object remarks)
+    {
         this.remarks = remarks.toString();
-        this.userid = userid.toString();
+        this.userid = (DocumentReference) userid;
+
     }
 
-    public String getRemarks() {
+    public String getRemarks()
+    {
         return remarks;
     }
 
-    public void setRemarks(String remarks) {
+    public void setRemarks(String remarks)
+    {
         this.remarks = remarks;
     }
 
-    public String getUserid() {
+    public DocumentReference getUserid()
+    {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(DocumentReference userid)
+    {
         this.userid = userid;
     }
+
 }

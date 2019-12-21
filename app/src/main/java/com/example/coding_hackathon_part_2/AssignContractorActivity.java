@@ -181,8 +181,8 @@ public class AssignContractorActivity extends AppCompatActivity {
 
 
         String title = titleText.getText().toString();
-        String latitude = latitudeText.getText().toString();
-        String longitude = longitudeText.getText().toString();
+        Double latitude = Double.valueOf(latitudeText.getText().toString());
+        Double longitude = Double.valueOf(longitudeText.getText().toString());
         String description = descriptionText.getText().toString();
 
         String x="";
