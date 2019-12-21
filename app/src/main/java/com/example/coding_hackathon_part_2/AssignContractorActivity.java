@@ -3,7 +3,9 @@ package com.example.coding_hackathon_part_2;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,29 +31,41 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AssignContractorActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     Spinner contractorSpin;
     Button AssignContractorBtn;
     EditText titleText, descriptionText, latitudeText, longitudeText;
+    TextView tv;
 
     ArrayList<String> contractors = new ArrayList<>();
     ArrayList<DocumentReference> contractorIds = new ArrayList<>();
 
     Toolbar mTopToolbar;
+    Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_contractor);
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         mTopToolbar = findViewById(R.id.my_toolbar);
         mTopToolbar.setTitle("Name of the app");
@@ -64,6 +78,7 @@ public class AssignContractorActivity extends AppCompatActivity {
         descriptionText = findViewById(R.id.input_description);
         latitudeText = findViewById(R.id.input_latitude);
         longitudeText = findViewById(R.id.input_longitude);
+        tv=findViewById(R.id.textView2);
 
         Intent intent = getIntent();
 
@@ -90,6 +105,12 @@ public class AssignContractorActivity extends AppCompatActivity {
             longitudeText.setEnabled(false);
             longitudeText.setFocusable(false);
         }
+        if(intent.getStringExtra("filePath") != null && !intent.getStringExtra("filePath").isEmpty()){
+            filePath=Uri.parse(intent.getStringExtra("filePath"));
+            tv.setText(filePath.getPath().toString());
+        }
+
+
 
         db.collection("contractors").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -163,6 +184,31 @@ public class AssignContractorActivity extends AppCompatActivity {
         String latitude = latitudeText.getText().toString();
         String longitude = longitudeText.getText().toString();
         String description = descriptionText.getText().toString();
+
+
+
+        StorageReference ref = storageReference.child("projects/"  + UUID.randomUUID().toString());
+        Log.d("madar",ref.toString());
+        ref.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        Toast.makeText(getApplicationContext(), "Uploaded Brochure", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    }
+                });
+
         DocumentReference contractorRef = contractorIds.get(contractorSpin.getSelectedItemPosition());
 
         Map<String, Object> user = new HashMap<>();
@@ -171,7 +217,7 @@ public class AssignContractorActivity extends AppCompatActivity {
         user.put("latitude", latitude);
         user.put("longitude", longitude);
         user.put("num_users", 0);
-        user.put("report", "To be put");
+        user.put("report", ref.toString());
         user.put("user_status", 0);
         user.put("contractor_status", 0);
         user.put("contractor_remarks", "");
@@ -193,6 +239,8 @@ public class AssignContractorActivity extends AppCompatActivity {
                                                 progressDialog.dismiss();
                                             }
                                         });
+
+
 
     }
 

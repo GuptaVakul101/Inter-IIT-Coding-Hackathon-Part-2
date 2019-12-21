@@ -73,6 +73,24 @@
                 android:ems="10"
                 android:hint="Longitude"
                 android:inputType="textPersonName" />
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@color/colorPrimaryDark"
+                android:text="Upload Brochure"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:drawableRight="@drawable/ic_navigate_next_white_36dp"/>
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No file selected" />
 
             <Button
                 android:id="@+id/btn_continue"
