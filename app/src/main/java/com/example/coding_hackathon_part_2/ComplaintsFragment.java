@@ -89,7 +89,7 @@ public class ComplaintsFragment extends Fragment
                         @Override
                         public void onBindViewHolder(@NonNull ViewHolder holder, int position)
                         {
-                            Region_Groups region_details = region_list.get(position);
+                            final Region_Groups region_details = region_list.get(position);
 
                             holder.txtProjectName.setText("Latitude: " + region_details.getLatitude());
                             holder.txtProjectDesciption.setText("Longitude: " + region_details.getLongitude());
@@ -100,6 +100,7 @@ public class ComplaintsFragment extends Fragment
                                 public void onClick(View v)
                                 {
                                     Intent i = new Intent(getActivity().getApplicationContext(), Complaint_Details.class);
+                                    i.putExtra("groupid", region_details.getId());
                                     startActivity(i);
                                 }
                             });
