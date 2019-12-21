@@ -185,29 +185,32 @@ public class AssignContractorActivity extends AppCompatActivity {
         String longitude = longitudeText.getText().toString();
         String description = descriptionText.getText().toString();
 
+        String x="";
+        if(filePath!=null) {
+            StorageReference ref = storageReference.child("projects/" + UUID.randomUUID().toString());
+            Log.d("madar", ref.toString());
+            x=ref.toString();
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                            Toast.makeText(getApplicationContext(), "Uploaded Brochure", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        }
+                    });
+        }
 
-        StorageReference ref = storageReference.child("projects/"  + UUID.randomUUID().toString());
-        Log.d("madar",ref.toString());
-        ref.putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        Toast.makeText(getApplicationContext(), "Uploaded Brochure", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    }
-                });
 
         DocumentReference contractorRef = contractorIds.get(contractorSpin.getSelectedItemPosition());
 
@@ -217,7 +220,7 @@ public class AssignContractorActivity extends AppCompatActivity {
         user.put("latitude", latitude);
         user.put("longitude", longitude);
         user.put("num_users", 0);
-        user.put("report", ref.toString());
+        user.put("report", x);
         user.put("user_status", 0);
         user.put("contractor_status", 0);
         user.put("contractor_remarks", "");
