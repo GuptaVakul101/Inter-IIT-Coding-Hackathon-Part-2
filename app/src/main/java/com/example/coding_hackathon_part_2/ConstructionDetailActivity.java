@@ -1,7 +1,7 @@
 package com.example.coding_hackathon_part_2;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,6 +10,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
 
 public class ConstructionDetailActivity extends AppCompatActivity {
 
@@ -22,8 +24,12 @@ public class ConstructionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_construction_detail);
 
         mTopToolbar = findViewById(R.id.my_toolbar);
-        mTopToolbar.setTitle("Name of the app");
+        mTopToolbar.setTitle("Roadseva");
         setSupportActionBar(mTopToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        ProjectId.projectId = getIntent().getStringExtra("projectId");
+        Log.d("myProject", ProjectId.projectId);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         for(int i = 0; i < numTabs; i++){
@@ -51,11 +57,6 @@ public class ConstructionDetailActivity extends AppCompatActivity {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) tab.setCustomView(R.layout.home_tab);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
     }
 
     @Override

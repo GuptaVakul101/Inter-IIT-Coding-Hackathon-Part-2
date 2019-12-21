@@ -96,7 +96,7 @@ public class Ongoing_Projects_List_Fragment extends Fragment
                                 public void onClick(View v)
                                 {
                                     Intent i = new Intent(getActivity().getApplicationContext(), ConstructionDetailActivity.class);
-                                    i.putExtra("ProjectId", project_details.getId());
+                                    i.putExtra("projectId", project_details.getId());
                                     startActivity(i);
                                 }
                             });
