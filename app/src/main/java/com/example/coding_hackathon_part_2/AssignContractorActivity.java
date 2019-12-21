@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,12 +17,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -29,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class AssignContractorActivity extends AppCompatActivity {
 
@@ -41,10 +46,17 @@ public class AssignContractorActivity extends AppCompatActivity {
     ArrayList<String> contractors = new ArrayList<>();
     ArrayList<DocumentReference> contractorIds = new ArrayList<>();
 
+    Toolbar mTopToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign_contractor);
+
+        mTopToolbar = findViewById(R.id.my_toolbar);
+        mTopToolbar.setTitle("Name of the app");
+        setSupportActionBar(mTopToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         contractorSpin = findViewById(R.id.choose_contractor);
         AssignContractorBtn = findViewById(R.id.btn_assign_contractor);
@@ -54,7 +66,7 @@ public class AssignContractorActivity extends AppCompatActivity {
         longitudeText = findViewById(R.id.input_longitude);
 
         Intent intent = getIntent();
-        
+
         if(intent.getStringExtra("title") != null && !intent.getStringExtra("title").isEmpty()){
             titleText.setText(intent.getStringExtra("title"));
             titleText.setEnabled(false);
@@ -103,6 +115,35 @@ public class AssignContractorActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_assign_contractor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setResult(RESULT_OK);
+                this.finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void add_project(){

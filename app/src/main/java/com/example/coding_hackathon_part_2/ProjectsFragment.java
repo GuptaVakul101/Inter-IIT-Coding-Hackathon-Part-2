@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import static android.content.Intent.EXTRA_TITLE;
-
 
 public class ProjectsFragment extends Fragment {
 
