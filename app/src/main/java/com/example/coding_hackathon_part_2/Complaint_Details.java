@@ -2,11 +2,14 @@ package com.example.coding_hackathon_part_2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Complaint_Details extends AppCompatActivity
 {
@@ -26,6 +30,7 @@ public class Complaint_Details extends AppCompatActivity
     List<complaintDetails> list = new ArrayList<>();
     private String group_id;
 
+    Toolbar mTopToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,8 +44,36 @@ public class Complaint_Details extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         Intent intent = getIntent();
 
+        mTopToolbar = findViewById(R.id.my_toolbar);
+        mTopToolbar.setTitle("Roadseva");
+        setSupportActionBar(mTopToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         if(intent.getStringExtra("groupid") != null && !intent.getStringExtra("groupid").isEmpty()){
             group_id = intent.getStringExtra("groupid");
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_assign_contractor, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                setResult(RESULT_OK);
+                this.finish();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
     }
 

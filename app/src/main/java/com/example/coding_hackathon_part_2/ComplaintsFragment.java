@@ -3,6 +3,8 @@ package com.example.coding_hackathon_part_2;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -37,6 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -112,6 +115,11 @@ public class ComplaintsFragment extends Fragment
                             holder.txtProjectName.setText("Latitude: " + region_details.getLatitude());
                             holder.txtProjectDesciption.setText("Longitude: " + region_details.getLongitude());
                             holder.txtProjectSurveyCount.setText("Number of Complaints: " + region_details.getNum_complaints());
+
+
+                            String location = getCompleteAddress(region_details.getLatitude(), region_details.getLongitude());
+                            holder.locationText.setText(location);
+
                             holder.btn_down.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -152,6 +160,7 @@ public class ComplaintsFragment extends Fragment
         public TextView txtProjectName;
         public TextView txtProjectDesciption;
         public TextView txtProjectSurveyCount;
+        public TextView locationText;
         public CardView parentlayout;
         public Button btn_down;
 
@@ -164,6 +173,7 @@ public class ComplaintsFragment extends Fragment
             txtProjectSurveyCount = itemView.findViewById(R.id.region_count);
             btn_down = itemView.findViewById(R.id.btn_download);
             parentlayout = itemView.findViewById(R.id.cardview_region);
+            locationText = itemView.findViewById(R.id.display_location);
         }
     }
 
@@ -239,6 +249,44 @@ public class ComplaintsFragment extends Fragment
                         // Uh-oh, an error occurred!
                     }
                 });
+    }
+
+    private String getCompleteAddress(double Latitude, double Longitutde)
+    {
+        String address = "";
+
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        try{
+
+            List<Address> addresses = geocoder.getFromLocation(Latitude,Longitutde,1);
+
+            if(addresses != null){
+
+                Address returnAddress = addresses.get(0);
+                StringBuilder stringBuilderreturnAddress = new StringBuilder("");
+
+                for(int i=0;i<=returnAddress.getMaxAddressLineIndex();i++) {
+                    stringBuilderreturnAddress.append(returnAddress.getAddressLine(i)).append("\n");
+                }
+
+                address = stringBuilderreturnAddress.toString();
+            }
+
+            else {
+                Toast.makeText(getActivity(),"Address Not Found",Toast.LENGTH_SHORT).show();
+            }
+
+            return address;
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getActivity(),e.getMessage().toString(),Toast.LENGTH_SHORT).show();
+        }
+
+        return address;
     }
 
 }

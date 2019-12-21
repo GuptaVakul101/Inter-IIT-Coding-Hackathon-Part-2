@@ -1,21 +1,18 @@
 package com.example.coding_hackathon_part_2;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +32,8 @@ public class Ongoing_Projects_List_Fragment extends Fragment
     List<com.example.coding_hackaton_guwahati.Projects> project_list = new ArrayList<>();
 
     private RecyclerView.Adapter<ViewHolder> adapter;
+
+    //Boolean loaded_once = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +55,7 @@ public class Ongoing_Projects_List_Fragment extends Fragment
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task)
             {
-                if(task.isSuccessful())
+                if(task.isSuccessful() )
                 {
                     for(QueryDocumentSnapshot document: task.getResult())
                     {
@@ -86,9 +85,9 @@ public class Ongoing_Projects_List_Fragment extends Fragment
                         {
                             final com.example.coding_hackaton_guwahati.Projects project_details = project_list.get(position);
 
-                            holder.txtProjectName.setText("Name: " + project_details.getName());
-                            holder.txtProjectDesciption.setText("Description: " + project_details.getDescription());
-                            holder.txtProjectSurveyCount.setText("Number of Surveys Done: " + project_details.getNum_users());
+                            holder.txtProjectName.setText(project_details.getName());
+                            holder.txtProjectDesciption.setText(project_details.getDescription());
+                            holder.txtProjectSurveyCount.setText("Number of surveys done: " + project_details.getNum_users());
 
                             holder.parentlayout.setOnClickListener(new View.OnClickListener()
                             {

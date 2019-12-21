@@ -12,52 +12,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp"
         android:paddingVertical="12dp">
 
         <TextView
-            android:id="@+id/region_latitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:text="LATITUDE :"
-            android:textColor="@color/colorAccent"
-            android:textSize="25dp" />
-
-        <Button
-            android:id="@+id/btn_download"
+            android:id="@+id/display_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DOWNLOAD PDF" />
+            android:text="TextView"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/region_latitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLines="6"
+            android:text="TextView"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/region_longitude"
-            android:layout_width="wrap_content"
-            android:layout_height="30sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:text="LONGITUDE :"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="TextView"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_download"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="366dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/white"
+            android:text="Click here to download media related to this complaint"
+            android:textAllCaps="false"
+            android:textColor="@color/colorDark"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/region_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:text="NUMBER OF COMPLAINTS :"
-            android:textStyle="italic"
-            />
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="TextView"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

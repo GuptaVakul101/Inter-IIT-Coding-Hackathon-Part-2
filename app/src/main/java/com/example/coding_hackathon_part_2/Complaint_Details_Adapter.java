@@ -1,6 +1,5 @@
 package com.example.coding_hackathon_part_2;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +34,11 @@ public class Complaint_Details_Adapter extends RecyclerView.Adapter<Complaint_De
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         complaintDetails itemdetails = mainUploadlist.get(position);
-        holder.txtProductName.setText("REMARKS " + itemdetails.getRemarks());
-        holder.txtProductCategory.setText("USERID " + itemdetails.getUserid());
+        holder.txtProductName.setText(itemdetails.getRemarks());
+        holder.txtProductCategory.setText("User ID: " + itemdetails.getUserid());
+
+
+        //holder.locationText.setText();
     }
 
     @Override
@@ -48,13 +50,17 @@ public class Complaint_Details_Adapter extends RecyclerView.Adapter<Complaint_De
 
     class ViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtProductName, txtProductCategory;
+        public TextView txtProductName, txtProductCategory, locationText, latitudeText, longitudeText;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             txtProductName = itemView.findViewById(R.id.complaint_remarks);
             txtProductCategory = itemView.findViewById(R.id.complaint_user_id);
+
+            locationText = itemView.findViewById(R.id.display_location);
+            latitudeText = itemView.findViewById(R.id.display_latitude);
+            longitudeText = itemView.findViewById(R.id.display_longitude);
         }
     }
 }
