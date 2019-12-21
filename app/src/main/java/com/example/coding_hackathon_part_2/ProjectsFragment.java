@@ -115,7 +115,8 @@ public class ProjectsFragment extends Fragment {
         intent.putExtra("description", description);
         intent.putExtra("latitude", latitude);
         intent.putExtra("longitude", longitude);
-        intent.putExtra("filePath",filepath.toString());
+        if(filepath!=null)
+            intent.putExtra("filePath",filepath.toString());
         startActivity(intent);
     }
 

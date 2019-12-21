@@ -76,7 +76,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="No file selected" />
 
         <Spinner
             android:id="@+id/choose_contractor"
