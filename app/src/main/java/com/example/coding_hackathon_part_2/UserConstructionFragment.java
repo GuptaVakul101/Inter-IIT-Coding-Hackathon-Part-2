@@ -1,6 +1,7 @@
 package com.example.coding_hackathon_part_2;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.okhttp.internal.Internal;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -52,6 +54,12 @@ public class UserConstructionFragment extends Fragment {
     String filetype,filename;
     private RecyclerView.Adapter<ViewHolder> adapter;
 
+    TextView highest,lowest,average;
+    Double local_highest = 0.0;
+    Double local_lowest = 101.0;
+    Double local_sum = 0.0;
+    Integer local_count = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,21 +71,53 @@ public class UserConstructionFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        highest = view.findViewById(R.id.display_highest);
+        lowest = view.findViewById(R.id.display_lowest);
+        average = view.findViewById(R.id.display_avg);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference ref = db.collection("user_survey");
 
         ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful())
+                {
+                    local_highest = 0.0;
+                    local_lowest = 101.0;
+                    local_sum = 0.0;
+                    local_count = 0;
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> data = document.getData();
+                        local_count = local_count+1;
 
                         ConstUser temp = new ConstUser(data.get("user_ref"),data.get("remarks"),data.get("time")
                         ,data.get("media_path"),data.get("user_status"));
 
+                        Double local_status = Double.valueOf(data.get("user_status").toString());
+                        if(local_status > local_highest)
+                        {
+                            local_highest = local_status;
+                        }
+
+                        if(local_status < local_lowest)
+                        {
+                            local_lowest = local_status;
+                        }
+
+                        local_sum = local_sum + local_status;
                         project_list.add(temp);
                     }
+
+                    Double local_average = local_sum/local_count;
+
+                    highest.setText("Highest User Survey Status : " + local_highest.toString());
+                    highest.setTypeface(null, Typeface.BOLD);
+                    lowest.setText("Lowest User Survey Status : " + local_lowest.toString());
+                    lowest.setTypeface(null, Typeface.BOLD);
+                    average.setText("Average User Survey Status : " + local_average.toString());
+                    average.setTypeface(null, Typeface.BOLD);
 
                     adapter = new RecyclerView.Adapter<ViewHolder>() {
                         @NonNull
