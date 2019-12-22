@@ -238,6 +238,7 @@ public class UserConstructionFragment extends Fragment {
 //                                        storageDir      /* directory */
 //                                );
 //                            } catch (Exception e) {
+//
 //                                e.printStackTrace();
 //                            }
 //                            Log.d("chirag", localfile.toString());
